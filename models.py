@@ -1,6 +1,12 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship,select,join,Session
+
+from database import engine
+
+session = Session(bind=engine)
 
 from typing import Optional, List
+
+# from sqlmodel.orm import session
 
 
 class UserInSchema(SQLModel):
@@ -26,5 +32,10 @@ class Car(CarInSchema, table=True):
     user: Optional[User] = Relationship(back_populates="cars")
 
 
-object = Car()
-# print(object.user.json())
+#
+# car = Car()
+# user = User()
+# car.user = user
+# stmt = select(Car, User).select_from(join(Car, User))
+# data = session.exec(stmt).all()
+# print(data)
