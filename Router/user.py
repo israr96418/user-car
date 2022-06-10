@@ -24,8 +24,8 @@ def Userdata(data: UserInSchema):
 @router.get("/")
 def get():
     # both work correctly
-    # result = session.exec(select(User, Car).join(Car).where(User.id == Car.user_id)).all()
-    result = session.exec(select(User, Car).select_from(join(User, Car))).all()
+    result = session.exec(select(User, Car).join(Car)).all()
+    # result = session.exec(select(User, Car).select_from(join(User, Car))).all()
     return result
 
 

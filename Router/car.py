@@ -10,7 +10,6 @@ session = Session(bind=engine)
 user = User()
 car = Car()
 
-
 router = APIRouter(
     prefix="/car",
     tags=['Car']
@@ -29,11 +28,12 @@ def Car_data(data: Car):
 
 @router.get("/")
 def get():
-    stmt = select(Car, User).select_from(join(Car, User))
-    car.user= user
-    data = session.exec(stmt).all()
-    print(data)
-    return data
+    # stmt = select(Car, User).select_from(join(Car, User))
+    stmt = session.exec(select(Car, User).join(User).where(Car.user_id == User.id)).all()
+    car.user = user
+    # data = session.exec(stmt).all()
+    # print(data)
+    return stmt
 
 
 @router.delete("/{id}")

@@ -1,10 +1,12 @@
-from sqlmodel import SQLModel, Field, Relationship,select,join,Session
+from sqlalchemy import Integer
+from sqlmodel import SQLModel, Field, Relationship, select, join, Session,ForeignKey,Column
 
 from database import engine
 
 session = Session(bind=engine)
 
 from typing import Optional, List
+
 
 # from sqlmodel.orm import session
 
@@ -28,9 +30,9 @@ class CarInSchema(SQLModel):
 class Car(CarInSchema, table=True):
     __tablename__ = "car_data"
     id: Optional[int] = Field(default=None, primary_key=True)
+    # user_id = int = Field(sa_column=Column(Integer, ForeignKey("hero.id", ondelete="CASCADE")))
     user_id: int = Field(default=None, foreign_key="user_data.id")
-    user: Optional[User] = Relationship(back_populates="cars")
-
+    user: Optional[User] = Relationship(back_populates="cars", sa_relationship_kwargs={"cascade":"all, delete"})
 
 #
 # car = Car()
